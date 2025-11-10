@@ -92,4 +92,4 @@ FI_clean <- fi_names_temp2 %>%
          accepted_name = accepted_taxa)
 
 write.csv(FI_clean,
-          "output/Flora_iberica_thesaurus.csv")
+          "thesaurus/Flora_iberica_thesaurus.csv")
