@@ -1,7 +1,12 @@
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# R Script to clean up the data scraped from Flora Iberica #
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
 library(tidyverse)
 library(stringr)
 rm(list = ls())
 
+# Load raw scraped data and auxiliary functions
 load("temp/fi_names_temp.RData")
 source("R/utils.R")
 
@@ -30,7 +35,7 @@ fi_names_temp <- fi_names_temp %>%
   mutate(taxonomic_level = case_when(grepl(" x ", taxa) ~ "hybrid",
                                      .default = taxonomic_level))
 
-# Usamos la funcion eidos_clean_names()
+# Use eidos_clean_names()
 fi_names_temp <- fi_names_temp %>%
   mutate(taxa2 = sapply(taxa, eidos_clean_names))
 
