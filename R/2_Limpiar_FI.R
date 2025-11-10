@@ -98,5 +98,13 @@ FI_clean <- fi_names_temp2 %>%
          canonical_name = taxa2,
          accepted_name = accepted_taxa)
 
+# Write CSV
 write.csv(FI_clean,
           "thesaurus/Flora_iberica_thesaurus.csv")
+
+# Compress CSV to save space
+zip(zipfile = "thesaurus/Flora_iberica_thesaurus.zip",
+    files = "thesaurus/Flora_iberica_thesaurus.csv")
+
+# Remove CSV
+file.remove("thesaurus/Flora_iberica_thesaurus.csv")
