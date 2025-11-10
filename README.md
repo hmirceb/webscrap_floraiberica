@@ -1,4 +1,4 @@
-# webscrap_floraiberica
+# Webscrapping Flora Ibérica
 
 A small project to scrape the web of [Flora Iberica](http://www.floraiberica.es/) for synonyms.
 
