@@ -26,8 +26,9 @@ fi_names_temp <- fi_names_temp %>%
                                          grepl("\\bsubvar\\.", taxa) ~ "subvariedad",
                                          grepl("\\bsubsp\\.", taxa) ~ "subespecie",
                                      genero == accepted_taxa ~ "genus",
-                                     grepl(" x ", taxa) ~ "hybrid",
-                                     .default = "species"))
+                                     .default = "species")) %>%
+  mutate(taxonomic_level = case_when(grepl(" x ", taxa) ~ "hybrid",
+                                     .default = taxonomic_level))
 
 # Usamos la funcion eidos_clean_names()
 fi_names_temp <- fi_names_temp %>%
@@ -75,9 +76,15 @@ fi_names_temp2 <- fi_names_temp2 %>%
                                   .default = "aceptado")) %>%
   mutate(taxa = eidos_clean_whitespaces(taxa))
 
+fi_names_temp2 <- fi_names_temp2 %>%
+  mutate(hyb_gen = paste0(str_sub_all(genero, 1, 1), "\\.")) %>%
+  mutate(across(c(accepted_taxa, taxa, taxa2, taxa4),
+                \(x) str_replace_all(x,
+                                     pattern = hyb_gen,
+                                     replacement = genero)))
+
 ### FALTA
 # revisar las que salen sin autoria pero si que la tienen
-# hibridos de subespecies, porque las coge como subespecies en vez de hibrido
 # las que tienen esto: [?] porque podrian lo que va depsues aparece en la autoria y no deberia
 # sacar informacion taxonomica superior de los generos from WFO o POWO,
 # incluyendo los generos que no estan completos en FI y si familia es NA
