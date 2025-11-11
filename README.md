@@ -1,6 +1,6 @@
 # Webscrapping *Flora iberica*
 
-Proyecto de *webscrapping* en R para extraer sinónimos de la web de [*Flora iberica*](http://www.floraiberica.es/). De esta forma se puede consultar nombres sin tener que emplear el formulario web de *Flora iberica*.
+Proyecto de *webscrapping* en R para extraer sinónimos de la web de [*Flora iberica*](http://www.floraiberica.es/). De esta forma se puede consultar nombres sin tener que emplear el formulario de la web.
 
 La carpeta **R** contiene varios scripts:
     - 1_Leer_FI.R: Lee el código HTML de cada género en la web. 

@@ -1,9 +1,9 @@
-#' Remove whitespaces
-#'
-#' @param x A vector of strings.
-#'
-#' @returns A vector of strings with only " " whitespaces
-#'
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# Funciones auxiliares basadas en el paquete eidosapi #
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# Autor: Hector Miranda Cebrian
+#
+
 eidos_clean_whitespaces = function(x) {
   # Substitute Unicode whitespaces with normal whitespaces
   x = gsub("\\p{Zs}+", " ", x, perl = TRUE)
@@ -17,14 +17,6 @@ eidos_clean_whitespaces = function(x) {
   return(x)
 }
 
-#' Clean a single species names
-#'
-#' Removes any "subsp.", "var.", "f.", years and authorship similar from a species name.
-#'
-#' @param taxa_names A single species names.
-#'
-#' @returns A single clean species names.
-#'
 eidos_clean_names = function(taxa_names){
 
   # Remove underscores if any

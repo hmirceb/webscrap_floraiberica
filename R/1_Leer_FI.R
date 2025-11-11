@@ -1,3 +1,10 @@
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# Script de R para obtener nombres de la web de Flora Iberica #
+# mediante webscrapping                                       #
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# Autor: Hector Miranda Cebrian
+#
+
 library(rvest)
 library(httr)
 library(tidyverse)
@@ -50,9 +57,7 @@ for(gen in seq_along(generos)) {
                                  taxa = NA,
                                  synonym = NA)
   } else {
-    # Bucle para extraer en cada especie. Como se hace con foreach,
-    # y ya estamos dentro de otro bucle foreach, no hacemos nada porque
-    # el resultado ya ira directo al bucle superior
+    # Bucle para extraer en cada especie
     sps_list <- list()
     for(sp in seq_along(genus_urls)) {
       # Genera la URL de la especie
@@ -108,6 +113,8 @@ for(gen in seq_along(generos)) {
     gen_list[[gen]] <- sps_df
   }
 }
+# Junta en un solo data frame
 fi_names_temp <- do.call("rbind", gen_list)
 
+# Guardamos
 save(fi_names_temp, file = "temp/fi_names_temp.RData")

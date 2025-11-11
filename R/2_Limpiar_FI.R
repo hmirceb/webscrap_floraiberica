@@ -1,12 +1,14 @@
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
-# R Script to clean up the data scraped from Flora Iberica #
-#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# Script de R para limpiar nombres obtenidos en  Flora Iberica #
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# Autor: Hector Miranda Cebrian
+#
 
 library(tidyverse)
 library(stringr)
 rm(list = ls())
 
-# Load raw scraped data and auxiliary functions
+# Lee datos brutos y funciones auxiliares
 load("temp/fi_names_temp.RData")
 source("R/utils.R")
 
@@ -35,12 +37,12 @@ fi_names_temp <- fi_names_temp %>%
   mutate(taxonomic_level = case_when(grepl(" x ", taxa) ~ "hibrido",
                                      .default = taxonomic_level))
 
-# Use eidos_clean_names()
+# Aplica eidos_clean_names()
 fi_names_temp <- fi_names_temp %>%
   mutate(taxa2 = sapply(taxa, eidos_clean_names))
 
-# Separate clean name into words and remove those words from full name
-# to get the authority
+# Separa nombres limpios en palabras y luego las elimina del nombre completo
+# para dejar solo la autoria
 fi_names_temp2 <- fi_names_temp %>%
   separate(taxa2, into = c("a", "b", "c"), sep = " ", remove = FALSE) %>%
   mutate(taxonomic_level = case_when(grepl("\\[\\?\\]", taxa) ~ "[?]",
@@ -70,8 +72,7 @@ fi_names_temp2 <- fi_names_temp %>%
   mutate(authority = str_remove_all(authority, "\\[\\?\\]")) %>%
   mutate(authority = trimws(eidos_clean_whitespaces(authority)))
 
-# Remove authority for hybrids and create new column with name
-# and form
+# Quita autoria de los hibridos
 fi_names_temp2 <- fi_names_temp2 %>%
   mutate(authority = case_when(taxonomic_level == "hibrido" ~ NA,
                            authority == "" ~ NA,
@@ -82,19 +83,18 @@ fi_names_temp2 <- fi_names_temp2 %>%
                            .default = taxa2)) %>%
   dplyr::select(-c(a, b, c))
 
-# Turn synonym type color codes into words
+# Convierte el codigo de los sinonimos al termino correspondiente
 fi_names_temp2 <- fi_names_temp2 %>%
   mutate(synonym_type = case_when(synonym == "#008000" ~ "heterotipico",
                                   synonym == "#800000" ~ "homotipico",
                                   .default = "aceptado")) %>%
   mutate(taxa = eidos_clean_whitespaces(taxa))
 
-# Genera in hybrids appears as A. instead of the full name,
-# fix that:
+# Los generos en los hibridos aparecen como A. en vez de completos:
 fi_names_temp2 <- fi_names_temp2 %>%
   mutate(hyb_gen = ifelse(taxonomic_level == "hibrido",
                           str_split_i(taxa, pattern = " ", i = 1),
-                          "Aknkdfigjdfkg")) %>% # random word to avoid substituting good genera
+                          "Aknkdfigjdfkg")) %>% # palabra al azar para no sustituir generos que esten bien
   mutate(across(c(accepted_taxa, taxa, taxa2, taxa4),
                 \(x) str_replace_all(x,
                                      pattern = hyb_gen,
@@ -106,7 +106,7 @@ fi_names_temp2 <- fi_names_temp2 %>%
                         taxa,
                         taxa4))
 
-# Remove abbreviations from canonical names
+# Quita abreviaturas de los nombres canonicos
 fi_names_temp2 <- fi_names_temp2 %>%
   mutate(taxa2 = str_replace_all(taxa2,
                                       " f.",
@@ -126,13 +126,7 @@ fi_names_temp2 <- fi_names_temp2 %>%
   mutate(accepted_taxa = str_replace_all(accepted_taxa,
                                  " subsp.",
                                  ""))
-
-### FALTA
-# revisar las que salen sin autoria pero si que la tienen
-# sacar informacion taxonomica superior de los generos from WFO o POWO,
-# incluyendo los generos que no estan completos en FI y si familia es NA
-
-
+# Renombra y reordena
 FI_clean <- fi_names_temp2 %>%
   dplyr::select(familia, genero, taxonomic_level, taxa, taxa4, authority, taxa2,
                 accepted_taxa, synonym_type) %>%
@@ -143,17 +137,17 @@ FI_clean <- fi_names_temp2 %>%
          nombre_aceptado = accepted_taxa,
          tipo_sinonimo = synonym_type,
          autoridad = authority) %>%
-  # Remove some NA in strings and wierd symbols
+  # Quita unos NA que aparecen en algunos nombres y simbolos raros
   mutate(across(everything(), \(x) trimws(str_remove_all(x, "NA")))) %>%
   mutate(across(everything(), \(x) trimws(str_remove_all(x, "€"))))
 
-# Write CSV
+# Escribe a fichero CSV
 write.csv(FI_clean,
           "thesaurus/Flora_iberica_thesaurus.csv")
 
-# Compress CSV to save space
+# Comprime el CSV
 zip(zipfile = "thesaurus/Flora_iberica_thesaurus.zip",
     files = "thesaurus/Flora_iberica_thesaurus.csv")
 
-# Remove CSV
+# Elimina el CSV
 file.remove("thesaurus/Flora_iberica_thesaurus.csv")
