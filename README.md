@@ -12,7 +12,8 @@ La carpeta **temp** contiene un archivo .RData con los nombres en bruto.
 La carpeta **thesaurus** contiene un archivo .zip comprimido con un archivo .csv: "Flora_iberica_thesaurus.csv". 
   - familia: Familia del taxón correspondiente. 
   - genero: Género del taxón correspondiente. 
-  - rango_taxonomico: Rango taxonómico del taxón. Uno de: género, especie, subespecie, forma, híbrido, subforma o [?]. [?] se refiere a taxa que en la web de *Flora iberica* contienen [?] en el nombre y por tanto no se puede conocer el rango taxonómico completo. Normalmente se refiere a [\alpha], [\beta] o similares, pero en las fichas de cada especie suele aparecer como [?].
+  - rango_taxonomico: Rango taxonómico del taxón. Uno de: género, especie, subespecie, forma, híbrido, subforma o [?]. 
+  [?] se refiere a taxa que en la web de *Flora iberica* contienen [?] en el nombre y por tanto no se puede conocer el rango taxonómico completo. Normalmente se refiere a [$\alpha$], [$\beta$] o similares, pero en las fichas de cada especie suele aparecer como [?].
   - nombre_completo: Nombre del taxón incluyendo autoría. 
   - nombre: Nombre sin autoría. 
   - autoridad: Autoridad que describió el taxón. 
