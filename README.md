@@ -11,4 +11,4 @@ All data are accesible under the license used by Flora Iberica: [CC BY-NC-SA 2.5
 
 The proper citation for this dataset and Flora Iberica as a whole is:
 
-Castroviejo, S. (coord. gen.). 1986-2012. Flora iberica 1-8, 10-15, 17-18, 21. Real Jardín Botánico, CSIC, Madrid.
+  - Castroviejo, S. (coord. gen.). 1986-2012. Flora iberica 1-8, 10-15, 17-18, 21. Real Jardín Botánico, CSIC, Madrid.
