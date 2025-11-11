@@ -12,7 +12,7 @@ La carpeta "temp" contiene un archivo .RData con los nombres en bruto.
 La carpeta "thesaurus" contiene un archivo .zip comprimido con un archivo .csv: "Flora_iberica_thesaurus.csv".
   - familia: Familia del taxón correspondiente.
   - genero: Género del taxón correspondiente.
-  - nivel_taxonomico: Rango taxonómico del taxón. Uno de: género, especie, subespecie, forma, híbrido, subforma o [?]. [?]
+  - rango_taxonomico: Rango taxonómico del taxón. Uno de: género, especie, subespecie, forma, híbrido, subforma o [?]. [?]
   - nombre_completo: Nombre del taxón incluyendo autoría.
   - nombre: Nombre sin autoría.
   - autoridad: Autoridad que describió el taxón.

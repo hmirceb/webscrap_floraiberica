@@ -137,7 +137,7 @@ FI_clean <- fi_names_temp2 %>%
   dplyr::select(familia, genero, taxonomic_level, taxa, taxa4, authority, taxa2,
                 accepted_taxa, synonym_type) %>%
   rename(nombre = taxa4,
-         nivel_taxonomico = taxonomic_level,
+         rango_taxonomico = taxonomic_level,
          nombre_completo = taxa,
          nombre_canonico = taxa2,
          nombre_aceptado = accepted_taxa,
